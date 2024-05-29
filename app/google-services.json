@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "110731473332",
+    "project_id": "book-app-386ab",
+    "storage_bucket": "book-app-386ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110731473332:android:ec67044beb2ef1d9b902e1",
+        "android_client_info": {
+          "package_name": "vinh.le.bookapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB1wEoIy18swGqfZkwXgH0WjnHRaejmKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110731473332:android:0e3e393a3b029e49b902e1",
+        "android_client_info": {
+          "package_name": "vinh.le.bookappkotlin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB1wEoIy18swGqfZkwXgH0WjnHRaejmKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
