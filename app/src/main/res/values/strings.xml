@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">BookAppKotlin</string>
+    <string name="app_name">Book App</string>
+    <string name="welcome_to_reading_app">Welcome to reading app</string>
+    <string name="continue_with_out_login">Continue with out login</string>
+    <string name="login">Login</string>
+    <string name="book_app">Book App</string>
 </resources>
