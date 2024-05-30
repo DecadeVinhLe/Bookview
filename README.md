@@ -4,7 +4,7 @@
 
 Android app for LiveTL using [Jetpack Compose](https://developer.android.com/jetpack/compose) for the UI.
 
-![IMG](https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books_23-2149342941.jpg)
+![IMG](https://i.pinimg.com/736x/53/06/8f/53068f4ac24b81656ec632009e8d9812.jpg)
 ## Contributing
 
 ### Translations

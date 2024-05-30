@@ -63,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
 		}else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
 			Toast.makeText(this,"Invalid email...",Toast.LENGTH_SHORT).show()
 		}else if (password.isEmpty()){
-			Toast.makeText(this,"Password is empty...",Toast.LENGTH_SHORT).show()
+			Toast.makeText(this,"Password cannot be blank...",Toast.LENGTH_SHORT).show()
 		}else if (cPassword.isEmpty()){
 			Toast.makeText(this,"Confirm password is empty...",Toast.LENGTH_SHORT).show()
 		}else if (cPassword != password) {
