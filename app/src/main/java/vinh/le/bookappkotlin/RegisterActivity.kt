@@ -1,12 +1,14 @@
 package vinh.le.bookappkotlin
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import vinh.le.bookappkotlin.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
@@ -72,6 +74,59 @@ class RegisterActivity : AppCompatActivity() {
 	}
 	// Create user account
 	private fun createUserAccount() {
-		TODO("Not yet implemented")
+		// Create account firebase Auth
+		
+		// showing progress
+		progressDialog.setMessage("Creating account...")
+		progressDialog.show()
+		
+		// Create user account
+		firebaseAth.createUserWithEmailAndPassword(email,password)
+			.addOnSuccessListener {
+				//successful create , add user info to db
+				updateUserinfo()
+			}
+			.addOnFailureListener {e->
+				//failed to create
+				progressDialog.dismiss()
+				Toast.makeText(this,"Failed creating account due to ${e.message}",Toast.LENGTH_SHORT).show()
+			}
+		
+	}
+	
+	private fun updateUserinfo(){
+     //save user info to firebase
+		progressDialog.setMessage("Saving user information...")
+		
+		// timestamp
+		val timestamp = System.currentTimeMillis()
+//		get current user uid, when user register
+	    val uid = firebaseAth.uid
+//		setup data to add to db
+	    val hashMap:HashMap<String,Any?> = HashMap()
+		hashMap["uid"] = uid
+		hashMap["email"] = email
+		hashMap["name"] = name
+		hashMap["profileImage"] = "" //add in profile edit
+		hashMap["userType"] = "user" // Indicate user dashboard
+		hashMap["timestamp"] = timestamp
+		
+		// Set data to firebase
+		val ref = FirebaseDatabase.getInstance().getReference("Users")
+		ref.child(uid!!)
+			.setValue(hashMap)
+			.addOnSuccessListener {
+				// user created and pass to db
+				progressDialog.dismiss()
+				Toast.makeText(this,"Account created !",Toast.LENGTH_SHORT).show()
+				startActivity(Intent(this,RegisterActivity::class.java))
+				finish()
+			
+			}
+			.addOnFailureListener {e->
+				// Failed to send data
+				progressDialog.dismiss()
+				Toast.makeText(this,"Failed to send data due to ${e.message}...",Toast.LENGTH_SHORT).show()
+			}
 	}
 }
