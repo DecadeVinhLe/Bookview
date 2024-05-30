@@ -4,4 +4,16 @@
     <string name="continue_with_out_login">Continue with out login</string>
     <string name="login">Login</string>
     <string name="book_app">Book App</string>
+    <string name="email">Email</string>
+    <string name="password">Password\n</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login_btn">Login</string>
+    <string name="new_user_signup">New User?<b>SignUp</b></string>
+    <string name="app_logo">App Logo</string>
+    <string name="create_new_account">Create New Account</string>
+    <string name="name">Name</string>
+    <string name="c_password">Confirm Password\n</string>
+    <string name="register">Register</string>
+    <string name="dashboard_user">Dashboard User</string>
+    <string name="dashboard_admin">Dashboard Admin\n</string>
 </resources>
