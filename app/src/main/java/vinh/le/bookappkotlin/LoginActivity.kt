@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityLoginBinding
 	
 	// firebase auth
-	private lateinit var firebaseAth: FirebaseAuth
+	private lateinit var firebaseAuth: FirebaseAuth
 	
 	// progress Dialog
 	private lateinit var progressDialog: ProgressDialog
@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
 		setContentView(binding.root)
 		
 		//init Firebase auth
-		firebaseAth = FirebaseAuth.getInstance()
+		firebaseAuth = FirebaseAuth.getInstance()
 		
 		// ini Progress Dialog and wait for register
 		progressDialog = ProgressDialog(this)
@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
 		progressDialog.setMessage("Logging in...")
 		progressDialog.show()
 		
-		firebaseAth.createUserWithEmailAndPassword(email, password)
+		firebaseAuth.createUserWithEmailAndPassword(email, password)
 			.addOnSuccessListener {
 				checkUser()
 			}
@@ -88,8 +88,8 @@ class LoginActivity : AppCompatActivity() {
 		//checking user in db or not
 		progressDialog.setMessage("Checking existed users...")
 		
-		val firebaseUser = firebaseAth.currentUser!!
-		
+		val firebaseUser = firebaseAuth.currentUser!!
+		// check userType admin or user
 		val ref = FirebaseDatabase.getInstance().getReference("Users")
 		ref.child(firebaseUser.uid)
 			.addListenerForSingleValueEvent(object : ValueEventListener{
@@ -97,8 +97,10 @@ class LoginActivity : AppCompatActivity() {
 					progressDialog.dismiss()
 					val userType = snapshot.child("userType").value
 					if(userType == "user"){
+						//open user dash board
 						startActivity(Intent(this@LoginActivity,DashboardUserActivity::class.java))
 					} else if (userType == "admin"){
+						//open admin dashboard
 						startActivity(Intent(this@LoginActivity,DashboardAdminActivity::class.java))
 						finish()
 						
@@ -108,12 +110,7 @@ class LoginActivity : AppCompatActivity() {
 				override fun onCancelled(error: DatabaseError) {
 				
 				}
-				
-			
-			}
-			
-			
-			)
+			})
 			
 		
 	}
