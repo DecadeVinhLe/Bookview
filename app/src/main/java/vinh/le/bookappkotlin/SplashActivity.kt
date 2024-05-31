@@ -3,7 +3,6 @@ package vinh.le.bookappkotlin
 import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -27,7 +26,11 @@ class SplashActivity : AppCompatActivity() {
 			start()
 		}
 	Handler(Looper.getMainLooper()).postDelayed(Runnable{
-		this.startActivity(Intent(this,MainActivity::class.java))
-	},2000)
+		checkUser()
+	},1000)
 }
+	
+	private fun checkUser() {
+		//get curren user, if logged in or not
 	}
+}
