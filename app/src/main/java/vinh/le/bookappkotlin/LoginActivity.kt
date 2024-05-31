@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener
 import vinh.le.bookappkotlin.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
-	
+	// view binding
 	private lateinit var binding: ActivityLoginBinding
 	
 	// firebase auth
