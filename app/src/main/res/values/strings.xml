@@ -17,4 +17,8 @@
     <string name="dashboard_user">Dashboard User</string>
     <string name="dashboard_admin">Dashboard Admin\n</string>
     <string name="not_logged_in">Not Logged In</string>
+    <string name="abc_example_com">abc@example.com</string>
+    <string name="add_new_category">Add a new category</string>
+    <string name="category_title">Category Title</string>
+    <string name="submit">Submit</string>
 </resources>

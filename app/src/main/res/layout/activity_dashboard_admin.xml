@@ -24,14 +24,17 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="@color/white"/>
+
         <TextView
             android:id="@+id/subTitleTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/titleTV"
-            android:text="abc@example.com"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="-20dp"
+            android:layout_centerInParent="true"
+            android:text="@string/abc_example_com"
+            android:textColor="@color/white" />
+
         <ImageButton
             android:id="@+id/logoutBtn"
             android:layout_width="wrap_content"
@@ -43,5 +46,39 @@
             android:background="@color/transparent"/>
 
     </RelativeLayout>
+
+<!--    Bottom layout-->
+    <LinearLayout
+        android:id="@+id/bottomLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
+        <Button
+            android:id="@+id/addCategoryBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="50dp"
+            android:background="@drawable/shape_button01"
+            android:text="+ Add Category"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+        <!-- Add PDF -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPdfFad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_500"
+            app:fabCustomSize="50dp"
+            android:tint="@color/white"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_pdf_add_white"/>
+
+
+    </LinearLayout>
 
 </RelativeLayout>
