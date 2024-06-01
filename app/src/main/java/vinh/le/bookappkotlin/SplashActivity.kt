@@ -38,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
 		}
 	Handler(Looper.getMainLooper()).postDelayed(Runnable{
 		checkUser()
-	},1000)
+	},3000)
 }
 	
 	private fun checkUser() {
@@ -62,7 +62,6 @@ class SplashActivity : AppCompatActivity() {
 							//open admin dashboard
 							startActivity(Intent(this@SplashActivity,DashboardAdminActivity::class.java))
 							finish()
-							
 						}
 					}
 					

@@ -72,7 +72,7 @@
             android:drawableStart="@drawable/ic_lock_gray"
             android:drawablePadding="10dp"
             android:hint="@string/password"
-            android:inputType="textPassword|numberPassword"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey01"/>
