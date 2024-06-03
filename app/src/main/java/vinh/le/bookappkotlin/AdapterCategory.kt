@@ -11,66 +11,59 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import vinh.le.bookappkotlin.databinding.RowCategoryBinding
 
-class AdapterCategory : RecyclerView.Adapter<AdapterCategory.ModelCategory>{
+class AdapterCategory(
+	private val context: Context,
+	private val categoryArrayList: ArrayList<ModelCategory>
+) : RecyclerView.Adapter<AdapterCategory.ModelCategoryViewHolder>() {
 	
-	//context
-	private var context: Context
+	// View binding
+	private lateinit var binding: RowCategoryBinding
 	
-	//ArrayList
-	private var categoryArrayList: ArrayList<ModelCategory>
-	
-	//view binding
-	private lateinit var binding:RowCategoryBinding
-	
-	//constructor
-	constructor(context: Context, categoryArrayList: ArrayList<ModelCategory>){
-		this.context = context
-		this.categoryArrayList = categoryArrayList
-	}
-	
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModelCategory {
-		//inflate binding rowBinding
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModelCategoryViewHolder {
+		// Inflate binding
 		binding = RowCategoryBinding.inflate(LayoutInflater.from(context), parent, false)
-		return ModelCategory(binding.root)
+		return ModelCategoryViewHolder(binding.root)
 	}
 	
-	override fun onBindViewHolder(holder:ModelCategory, position: Int) {
-//		Get Data, Set Data, Handle On Clicks
-
-//		get data
+	override fun onBindViewHolder(holder: ModelCategoryViewHolder, position: Int) {
+		// Get data
 		val model = categoryArrayList[position]
 		val id = model.id
 		val category = model.category
 		val uid = model.uid
 		val timestamp = model.timestamp
-		//set data
+		
+		// Set data
 		holder.categoryTv.text = category
-		//handle on click
-		holder.deleteBtn.setOnClickListener(){
-			//delete
+		
+		// Handle on click
+		holder.deleteBtn.setOnClickListener {
+			// Create alert dialog
 			val builder = AlertDialog.Builder(context)
 			builder.setTitle("Delete")
-					.setMessage("Are you sure delete this item?")
-				.setPositiveButtonIcon("Confirm"){ a, d ->
-				
+				.setMessage("Are you sure you want to delete this item?")
+				.setPositiveButton("Confirm") { dialog, _ ->
+					// Handle deletion here
+					// You can call a function to remove the item from the list and notify the adapter
+					categoryArrayList.removeAt(position)
+					notifyItemRemoved(position)
+					notifyItemRangeChanged(position, itemCount)
+					dialog.dismiss()
+					Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show()
 				}
-				.setNegativeButton("Cancel"){ a, d ->
-					a.dismiss()}
-
+				.setNegativeButton("Cancel") { dialog, _ ->
+					dialog.dismiss()
+				}
+				.show()
 		}
 	}
 	
 	override fun getItemCount(): Int {
-		return categoryArrayList.size //number items in list
+		return categoryArrayList.size // Number of items in the list
 	}
 	
-	inner class ModelCategory(itemView: View) : RecyclerView.ViewHolder(itemView) {
+	inner class ModelCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		var categoryTv: TextView = binding.categoryTv
-	 var deleteBtn : ImageView = binding.deleteBtn
+		var deleteBtn: ImageView = binding.deleteBtn
 	}
-	
-}
-
-private fun AlertDialog.Builder.setPositiveButtonIcon(s: String, any: Any) {
-	TODO("Not yet implemented")
 }
