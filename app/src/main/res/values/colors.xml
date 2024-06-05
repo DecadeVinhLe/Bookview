@@ -5,7 +5,7 @@
     <color name="purple_500">#3806C0</color>
     <color name="purple_700">#2B0495</color>
     <color name="transparent">#00DEDEDE</color>
-    <color name="grey01">#c5c5c5c5</color>
+    <color name="grey01">#C5C5C5</color>
     <color name="grey02">#777777</color>
     <color name="grey03">#E27A7877</color>
 </resources>

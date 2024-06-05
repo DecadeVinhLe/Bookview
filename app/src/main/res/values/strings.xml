@@ -23,4 +23,9 @@
     <string name="submit">Submit</string>
     <string name="search">Search</string>
     <string name="add_category">+ Add Category</string>
+    <string name="add_a_new_book">Add a New Book</string>
+    <string name="book_title">Book Title</string>
+    <string name="book_description">Book Description</string>
+    <string name="book_category">Book Category</string>
+    <string name="upload">Upload</string>
 </resources>
