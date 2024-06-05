@@ -64,7 +64,7 @@ class DashboardAdminActivity : AppCompatActivity() {
 		}
 		//handle click, start add pdf page
 		binding.addPdfFad.setOnClickListener {
-			startActivity(Intent(this,PdfActivity::class.java))
+			startActivity(Intent(this,PdfAddActivity::class.java))
 		}
 	}
 	
