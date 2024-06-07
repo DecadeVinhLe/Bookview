@@ -41,17 +41,17 @@ android {
 }
 
 dependencies {
-	
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)
-	implementation(libs.androidx.activity)
+	implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
 	implementation(libs.androidx.constraintlayout)
 	implementation(libs.firebase.analytics)
 	implementation(libs.firebase.auth)
 	implementation(libs.firebase.database)
 	implementation(libs.firebase.crashlytics)
 	implementation(libs.firebase.storage)
+	implementation(libs.androidx.activity)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

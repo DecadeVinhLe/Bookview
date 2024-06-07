@@ -28,4 +28,11 @@
     <string name="book_description">Book Description</string>
     <string name="book_category">Book Category</string>
     <string name="upload">Upload</string>
+    <string name="books">Books</string>
+    <string name="category">Category\n</string>
+    <string name="the_book_title">Book Title</string>
+    <string name="the_description_of_the_book">The description of the book</string>
+    <string name="caption_category">Category</string>
+    <string name="_13mb">13MB</string>
+    <string name="dd_mm_yyyy">dd/MM/yyyy</string>
 </resources>

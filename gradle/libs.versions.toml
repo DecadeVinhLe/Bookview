@@ -17,8 +17,10 @@ firebaseAuth = "23.0.0"
 firebaseCrashlytics = "19.0.0"
 googleFirebaseCrashlytics = "2.9.9"
 firebaseStorage = "21.0.0"
+pdfViewerVersion = "latest-version"
 
 [libraries]
+afreakyelf-pdf-viewer = { module = "io.github.afreakyelf:Pdf-Viewer", version.ref = "pdfViewerVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
