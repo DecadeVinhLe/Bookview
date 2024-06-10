@@ -1,6 +1,7 @@
 package vinh.le.bookappkotlin
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -82,9 +83,12 @@ class AdapterPdfAdmin(context: Context, pdfArrayList: ArrayList<ModelPdf>) :
 			  //handle item click
 				if (position==0){
 				 //edit is click
+					val intent = Intent(context,PdfEditActivity::class.java)
+					 intent.putExtra("bookId", bookId)
+					context.startActivity(intent)
 				}
 				else if (position==1){
-				  //delete is click
+				  //delete is click, lets create function in MyApplication class
 				}
 			}
 			.show()

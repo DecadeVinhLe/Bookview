@@ -35,4 +35,7 @@
     <string name="caption_category">Category</string>
     <string name="_13mb">13MB</string>
     <string name="dd_mm_yyyy">dd/MM/yyyy</string>
+    <string name="edit_book_info">Edit Book Info</string>
+    <string name="_book_description">Book Description</string>
+    <string name="update">Update</string>
 </resources>
