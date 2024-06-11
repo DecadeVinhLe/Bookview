@@ -67,6 +67,12 @@ class AdapterPdfAdmin(context: Context, pdfArrayList: ArrayList<ModelPdf>) :
 		}
 		
 		//handle click, open PdfDetailActivity activity
+		holder.moreBtn.setOnClickListener {
+			//intent with book
+			val intent = Intent(context,PdfDetailActivity::class.java)
+			intent.putExtra("bookId", pdfId)
+			context.startActivity(intent)
+		}
 	}
 	
 	private fun moreOptionsDialog(model: ModelPdf, holder: AdapterPdfAdmin.HolderPdfAdmin) {

@@ -38,4 +38,5 @@
     <string name="edit_book_info">Edit Book Info</string>
     <string name="_book_description">Book Description</string>
     <string name="update">Update</string>
+    <string name="book_details">Book Details</string>
 </resources>
