@@ -37,7 +37,9 @@ class PdfDetailActivity : AppCompatActivity() {
 		
 		//handle click, open pdf view activity
 		binding.readBookBtn.setOnClickListener {
-		  startActivity(Intent(this, PdfViewActivity::class.java))
+			val intent = Intent(this, PdfViewActivity::class.java)
+			intent.putExtra("bookId", bookId);
+		  startActivity(intent)
 		}
 	}
 		
