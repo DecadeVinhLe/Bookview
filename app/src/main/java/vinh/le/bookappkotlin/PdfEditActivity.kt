@@ -49,6 +49,7 @@ class PdfEditActivity : AppCompatActivity() {
 	   progressDialog.setCanceledOnTouchOutside(false)
 		
 	   loadCategories()
+		loadBookInfo()
 		
 		//handle click, goback
 		binding.backBtn.setOnClickListener {
@@ -62,6 +63,46 @@ class PdfEditActivity : AppCompatActivity() {
 		binding.submitBtn.setOnClickListener {
 		 validateData()
 		}
+	}
+	
+	private fun loadBookInfo() {
+		Log.d(TAG,"loadBookInfo: Loading Book Info")
+		
+		val ref = FirebaseDatabase.getInstance().getReference("Books")
+		ref.child(bookId)
+			.addListenerForSingleValueEvent(object: ValueEventListener{
+				override fun onDataChange(snapshot: DataSnapshot) {
+					//get book info
+					selectedCategoryId = snapshot.child("categoryId").value.toString()
+					val description = snapshot.child("description").value.toString()
+					val title = snapshot.child("title").value.toString()
+					
+					//set to view
+					binding.titleEt.setText(title)
+					binding.descriptionEt.setText(description)
+					
+					//load book category info using category ID
+					Log.d(TAG,"onDataChange: Loading book category info")
+					val refBookCategory = FirebaseDatabase.getInstance().getReference("Categories")
+						refBookCategory.child(selectedCategoryId)
+							.addListenerForSingleValueEvent(object: ValueEventListener{
+								override fun onDataChange(snapshot: DataSnapshot) {
+								 //get category
+									val category = snapshot.child("category").value
+								 //set to Textview
+									binding.categoryTv.text = category.toString()
+								}
+								
+								override fun onCancelled(error: DatabaseError) {
+								
+								}
+							})
+				}
+				
+				override fun onCancelled(error: DatabaseError) {
+				
+				}
+			})
 	}
 	
 	private var title = ""

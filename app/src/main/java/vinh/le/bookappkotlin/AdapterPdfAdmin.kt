@@ -65,6 +65,8 @@ class AdapterPdfAdmin(context: Context, pdfArrayList: ArrayList<ModelPdf>) :
 		holder.moreBtn.setOnClickListener{
 		   moreOptionsDialog(model, holder)
 		}
+		
+		//handle click, open PdfDetailActivity activity
 	}
 	
 	private fun moreOptionsDialog(model: ModelPdf, holder: AdapterPdfAdmin.HolderPdfAdmin) {
@@ -89,6 +91,9 @@ class AdapterPdfAdmin(context: Context, pdfArrayList: ArrayList<ModelPdf>) :
 				}
 				else if (position==1){
 				  //delete is click, lets create function in MyApplication class
+					
+					 //show confirmation dialog before delete
+					MyApplication.deleteBook(context, bookId, bookUrl, bookTitle)
 				}
 			}
 			.show()
