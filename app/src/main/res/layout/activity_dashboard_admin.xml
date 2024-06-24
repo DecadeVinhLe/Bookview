@@ -25,6 +25,16 @@
             android:textStyle="bold"
             android:textColor="@color/white"/>
 
+        <!--profile Button -->
+        <ImageButton
+            android:id="@+id/profileBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person_white"
+            android:background="@color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"/>
+
         <TextView
             android:id="@+id/subTitleTV"
             android:layout_width="wrap_content"

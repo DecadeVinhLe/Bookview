@@ -8,7 +8,7 @@ plugins {
 android {
 	namespace = "vinh.le.bookappkotlin"
 	compileSdk = 34
-	
+
 	defaultConfig {
 		applicationId = "vinh.le.bookappkotlin"
 		minSdk = 33
@@ -45,6 +45,7 @@ dependencies {
 	implementation(libs.androidx.appcompat)
 	implementation(libs.material)
 	implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
+	implementation ("com.github.bumptech.glide:glide:4.16.0")
 	implementation(libs.androidx.constraintlayout)
 	implementation(libs.firebase.analytics)
 	implementation(libs.firebase.auth)

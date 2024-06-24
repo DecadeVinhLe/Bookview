@@ -1,8 +1,10 @@
 package vinh.le.bookappkotlin
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -41,7 +43,13 @@ class DashboardUserActivity : AppCompatActivity() {
 		//handling click, logout
 		binding.logoutBtn.setOnClickListener {
 			firebaseAuth.signOut()
-			checkUser()
+			startActivity(Intent(this,MainActivity::class.java))
+			finish()
+		}
+		
+		//handle profile, log out
+		binding.profileBtn.setOnClickListener{
+			startActivity(Intent(this,ProfileActivity::class.java))
 		}
 		
 	}
@@ -161,18 +169,29 @@ class DashboardUserActivity : AppCompatActivity() {
 		
 		}
 	}
+	
+	//this activity can be opened without login, so hide logout
+	@SuppressLint("SuspiciousIndentation")
 	private fun checkUser() {
 //		get current user
      val firebaseUser = firebaseAuth.currentUser
 		if (firebaseUser == null){
 //			not allow to login, goto main screen
-			startActivity(Intent(this,MainActivity::class.java))
-			finish()
+			binding.subTitleTV.text = "Not Logged In"
+			
+			//hide profile, logout
+			binding.profileBtn.visibility = View.GONE
+			binding.logoutBtn.visibility = View.GONE
 		} else {
 			//Logged in, get and show user info
 			val email = firebaseUser.email
 			//set in textview of toolbar
 			binding.subTitleTV.text = email
+			
+			//show profile, logout
+			binding.profileBtn.visibility = View.VISIBLE
+			binding.logoutBtn.visibility = View.VISIBLE
+			
 		}
 	}
 	
