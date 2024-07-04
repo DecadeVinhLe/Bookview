@@ -20,6 +20,7 @@
          android:id="@+id/backBtn"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
+         android:contentDescription="TODO"
          android:src="@drawable/back_white"
          android:layout_marginStart="10dp"
          android:background="@color/transparent"
@@ -239,6 +240,47 @@
                  android:layout_marginTop="5dp"
                  android:text="The description of the books"
                  android:textColor="@color/black"/>
+
+             <!--View: Separate -->
+             <View
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"
+                 android:background="@color/grey03"
+                 android:layout_marginTop="5dp"/>
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
+
+                 <!--TextView: Comment Label -->
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Comments"
+                     android:padding="5dp"
+                     android:textColor="@color/black"
+                     android:textSize="16sp"/>
+                 
+                 <!--ImageButton: Show dialog to add new comment -->
+                 <ImageButton
+                     android:id="@+id/addCommentBtn"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:background="@color/transparent"
+                     android:padding="10dp"
+                     android:src="@drawable/ic_comment_add_black"
+                     android:layout_alignParentEnd="true"/>
+
+                 <!--RecycleView: Show comment-->
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/commentRv"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@+id/addCommentBtn"
+                     tools:listitem="@layout/row_comment"
+                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+             </RelativeLayout>
          </LinearLayout>
 
      </ScrollView>

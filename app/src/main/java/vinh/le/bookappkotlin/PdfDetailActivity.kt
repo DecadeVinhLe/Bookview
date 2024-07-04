@@ -7,8 +7,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +21,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import vinh.le.bookappkotlin.MyApplication.Companion.incrementBookViewCount
 import vinh.le.bookappkotlin.databinding.ActivityPdfDetailBinding
+import vinh.le.bookappkotlin.databinding.DialogCommentAddBinding
 import java.io.FileOutputStream
 
 class PdfDetailActivity : AppCompatActivity() {
@@ -45,6 +48,12 @@ class PdfDetailActivity : AppCompatActivity() {
 	private lateinit var firebaseAuth: FirebaseAuth
 	
 	private lateinit var progressDialog: ProgressDialog
+	
+	//Array list to hold comments
+	private lateinit var commentArrayList: ArrayList<ModelComment>
+	//adapter to set to recycle view
+	private lateinit var adapterComment: AdapterComment
+	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		binding = ActivityPdfDetailBinding.inflate(layoutInflater)
@@ -69,6 +78,7 @@ class PdfDetailActivity : AppCompatActivity() {
 		incrementBookViewCount(bookId)
 		
 		loadBookDetails()
+		showComments()
 		
 		//handle back button click, go back
 		binding.backBtn.setOnClickListener {
@@ -114,6 +124,110 @@ class PdfDetailActivity : AppCompatActivity() {
 			
 			}
 		}
+		
+		//handle click: add comment dialog
+		binding.addCommentBtn.setOnClickListener {
+			/* User must be logged in to add comment*/
+			if(firebaseAuth.currentUser == null){
+			 //user not logged in, can't add comment
+				Toast.makeText(this,"You're not logged in !",Toast.LENGTH_SHORT).show()
+			}
+			else{
+				//user logged in, allow add c comment
+				addCommentDialog()
+			}
+		}
+	}
+	
+	private fun showComments() {
+	  //init ArrayList
+		commentArrayList = ArrayList()
+		
+		//db path to load comment
+		val ref = FirebaseDatabase.getInstance().getReference("Books")
+		ref.child(bookId).child("Comments")
+			.addValueEventListener(object:ValueEventListener{
+				override fun onDataChange(snapshot: DataSnapshot) {
+				  //clear list
+					commentArrayList.clear()
+					for (ds in snapshot.children){
+						//get data model
+						val model = ds.getValue(ModelComment::class.java)
+						//add to list
+						commentArrayList.add(model!!)
+					}
+					//setup adapter
+					adapterComment = AdapterComment(this@PdfDetailActivity, commentArrayList)
+					//set adapter to recycle view
+					binding.commentRv.adapter = adapterComment
+				}
+				
+				
+				override fun onCancelled(error: DatabaseError) {
+				
+				}
+			})
+	}
+	
+	private var comment = ""
+	private fun addCommentDialog() {
+		//inflate view for dialog
+		val commentAddBinding = DialogCommentAddBinding.inflate(LayoutInflater.from(this))
+		
+		//setup alert dialog
+		val builder = AlertDialog.Builder(this,R.style.CustomDialog)
+		builder.setView(commentAddBinding.root)
+		
+		//create and show alert dialog
+		val alertDialog = builder.create()
+		alertDialog.show()
+		
+		//handle click, dismiss dialog
+		commentAddBinding.backBtn.setOnClickListener{alertDialog.dismiss()}
+		  //get data
+		comment = commentAddBinding.commentEt.text.toString()
+		//validate data
+		 if(comment.isEmpty()){
+			 Toast.makeText(this,"Enter your comment...",Toast.LENGTH_SHORT).show()
+		 }
+		else{
+			alertDialog.dismiss()
+			 addComment()
+		 }
+	}
+	
+	private fun addComment() {
+		//show progress
+		progressDialog.setMessage("Adding Comment")
+		progressDialog.show()
+		
+		//timestamp for comment id
+		val timestamp = "${System.currentTimeMillis()}"
+		
+		//setup data to add in db
+		val hashMap = HashMap<String,Any>()
+		hashMap["id"] = "$timestamp"
+		hashMap["bookId"] = "$bookId"
+		hashMap["timestamp"] = "$timestamp"
+		hashMap["comment"] = "$comment"
+		hashMap["uid"] = "${firebaseAuth.uid}"
+		
+		//db path to add data
+		//Books > bookId > Comments > commentId > commentData
+		val ref = FirebaseDatabase.getInstance().getReference("Books")
+		ref.child(bookId).child("Comments").child(timestamp)
+			.setValue(hashMap)
+			.addOnSuccessListener{
+				progressDialog.dismiss()
+				Toast.makeText(this,"Comment added...",Toast.LENGTH_SHORT).show()
+			}
+			.addOnFailureListener{e->
+			  progressDialog.dismiss()
+				Toast.makeText(this,"Failed to add comment due to ${e.message}",Toast.LENGTH_SHORT).show()
+				
+			}
+		
+		 
 	}
 	
 	private val requestStoragePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted:Boolean ->
