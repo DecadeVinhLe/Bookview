@@ -175,7 +175,34 @@
         </LinearLayout>
     </LinearLayout>
 
+  <!--View: to separate -->
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/detailsLl"
+        android:background="@color/grey03"
+        android:layout_marginTop="5dp"/>
+    
+    <!--TextView: Label -->
+    <TextView
+        android:id="@+id/favouriteLabelsTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Favourite Books"
+        android:layout_below="@id/view1"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:padding="5dp"/>
 
+    <!-- Recyclerview: Show favourite books -->
+   <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favouriteRv"
+       android:layout_below="@id/favouriteLabelsTv"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+       tools:listitem="@layout/row_pdf_favourite"/>
 
 
 </RelativeLayout>

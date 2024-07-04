@@ -1,7 +1,6 @@
 package vinh.le.bookappkotlin
 
 import android.app.Application
-import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log
 import android.view.View
@@ -9,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.github.barteksc.pdfviewer.PDFView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -117,75 +117,92 @@ class MyApplication : Application() {
 			val TAG = "DELETE_BOOK_TAG"
 			Log.d(TAG, "deleteBook: deleting...")
 			
-		//Progress Dialog
-		   val progressDialog = ProgressDialog(context)
-			progressDialog.setTitle("Please wait...")
-			progressDialog.setMessage("Deleting $bookTitle...")
-			progressDialog.setCanceledOnTouchOutside(false)
-			progressDialog.show()
+			// Progress Bar
+			val progressBar = ProgressBar(context).apply {
+				visibility = View.VISIBLE
+			}
 			
-			//delete book from db
-			Log.d(TAG,"deleteBook: Deleting from storage...")
+			// Delete book from storage
+			Log.d(TAG, "deleteBook: Deleting from storage...")
 			val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(bookUrl)
 			storageReference.delete()
 				.addOnSuccessListener {
-					Log.d(TAG,"Deleted from storage")
-					Log.d(TAG,"Deleting from db now...")
+					Log.d(TAG, "Deleted from storage")
+					Log.d(TAG, "Deleting from db now...")
 					
 					val ref = FirebaseDatabase.getInstance().getReference("Books")
 					ref.child(bookId)
 						.removeValue()
 						.addOnSuccessListener {
-							progressDialog.dismiss()
-						    Toast.makeText(context,"Successfully deleted...",Toast.LENGTH_SHORT).show()
-							Log.d(TAG,"deleteBook: Deleted from db too...")
+							progressBar.visibility = View.GONE
+							Toast.makeText(context, "Successfully deleted...", Toast.LENGTH_SHORT).show()
+							Log.d(TAG, "deleteBook: Deleted from db too...")
 						}
 						.addOnFailureListener { e ->
-							progressDialog.dismiss()
-							Log.d(TAG,"deleteBook: Failed to delete from storage due to ${e.message} ")
-							Toast.makeText(context,"Failed to delete from storage due to ${e.message}",Toast.LENGTH_SHORT).show()
-							
-						
+							progressBar.visibility = View.GONE
+							Log.d(TAG, "deleteBook: Failed to delete from db due to ${e.message}")
+							Toast.makeText(context, "Failed to delete from db due to ${e.message}", Toast.LENGTH_SHORT).show()
 						}
 				}
-				.addOnFailureListener {e ->
-					progressDialog.dismiss()
-					Log.d(TAG,"deleteBook: Failed to delete from storage due to ${e.message} ")
-				    Toast.makeText(context,"Failed to delete from storage due to ${e.message}",Toast.LENGTH_SHORT).show()
+				.addOnFailureListener { e ->
+					progressBar.visibility = View.GONE
+					Log.d(TAG, "deleteBook: Failed to delete from storage due to ${e.message}")
+					Toast.makeText(context, "Failed to delete from storage due to ${e.message}", Toast.LENGTH_SHORT).show()
 				}
 		}
 		
-		fun incrementBookViewCount(bookId: String){
-			
-			//get current books view count
+		// Function to increment book view count
+		fun incrementBookViewCount(bookId: String) {
 			val ref = FirebaseDatabase.getInstance().getReference("Books")
 			ref.child(bookId)
 				.addListenerForSingleValueEvent(object : ValueEventListener {
 					override fun onDataChange(snapshot: DataSnapshot) {
-						 //get views count
-						var viewsCount = """${snapshot.child("viewsCount").value}"""
-					 
-						if (viewsCount == "" || viewsCount == "null"){
-							viewsCount = "0";
+						// Get views count
+						var viewsCount = snapshot.child("viewsCount").value.toString()
+						if (viewsCount == "" || viewsCount == "null") {
+							viewsCount = "0"
 						}
-						// 2Increment views count
+						// Increment views count
 						val newViewsCount = viewsCount.toLong() + 1
 						
-						//setup data to update to db
-						val hashMap = HashMap<String,Any>()
+						// Setup data to update to db
+						val hashMap = HashMap<String, Any>()
 						hashMap["viewsCount"] = newViewsCount
 						
-						//set to db
+						// Set to db
 						val dbRef = FirebaseDatabase.getInstance().getReference("Books")
 						dbRef.child(bookId)
 							.updateChildren(hashMap)
 					}
 					
 					override fun onCancelled(error: DatabaseError) {
-						TODO("Not yet implemented")
+						Log.d("VIEW_COUNT_ERROR", "Failed to increment view count: ${error.message}")
 					}
 				})
-		
+			
 		}
+		
+		public fun removeFromFavourite(context: Context,bookId: String){
+			val TAG = "REMOVE_FAV_TAG"
+			Log.d(TAG,"removeFromFavourite: Removing from fav")
+			
+			val firebaseAuth = FirebaseAuth.getInstance()
+			
+			//database ref
+			val ref = FirebaseDatabase.getInstance().getReference("Users")
+			ref.child(firebaseAuth.uid!!).child("Favourites").child(bookId)
+				.removeValue()
+				.addOnSuccessListener {
+					Log.d(TAG,"removeFromFavourite: Removed from fav")
+					Toast.makeText(context,"Removed from fav",Toast.LENGTH_SHORT).show()
+					
+					
+				}
+				.addOnFailureListener { e->
+					Log.d(TAG,"removeFromFavourite: Failed to remove from fav due to ${e.message}")
+					Toast.makeText(context,"Failed to remove from fav due to ${e.message}",Toast.LENGTH_SHORT).show()
+				}
+		}
+		
 	}
 }

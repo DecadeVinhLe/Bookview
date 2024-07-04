@@ -12,6 +12,7 @@ class ModelPdf {
 	var timestamp:Long = 0
 	var viewCount:Long = 0
 	var downloadsCount:Long = 0
+	var isFavorite = false
 	
 	
 	//empty constructor (required firebase)
@@ -26,6 +27,7 @@ class ModelPdf {
 		timestamp: Long,
 		viewCount: Long,
 		downloadsCount: Long,
+		isFavorite:Boolean
 	) {
 		this.uid = uid
 		this.id = id
@@ -36,6 +38,7 @@ class ModelPdf {
 		this.timestamp = timestamp
 		this.viewCount = viewCount
 		this.downloadsCount = downloadsCount
+		this.isFavorite = isFavorite
 	}
 	//parameterized constructor
 	

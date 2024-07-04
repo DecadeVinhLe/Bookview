@@ -18,6 +18,10 @@ class ProfileActivity : AppCompatActivity() {
 	//firebase auth
 	private lateinit var firebaseAuth: FirebaseAuth
 	
+	//ArrayList to Hold Books
+	private lateinit var booksArrayList: ArrayList<ModelPdf>
+	private lateinit var adapterPdfFavourite: AdapterPdfFavourite
+	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
@@ -74,5 +78,41 @@ class ProfileActivity : AppCompatActivity() {
 				}
 			})
 		
+	}
+	
+	private fun loadFavoriteBooks(){
+		//init array list
+		booksArrayList = ArrayList()
+		
+	   val ref = FirebaseDatabase.getInstance().getReference("Users")
+		 ref.child(firebaseAuth.uid!!).child("Favourites")
+			 .addValueEventListener(object: ValueEventListener{
+				 override fun onDataChange(snapshot: DataSnapshot) {
+					//clear array, before add data
+					 booksArrayList.clear()
+					 for(ds in snapshot.children){
+						 //get only id of books
+						 val bookId = "${ds.child("bookId").value}"
+						 //set to model
+						 val modelPdf = ModelPdf()
+						 modelPdf.id = bookId
+						 //add model to list
+						 booksArrayList.add(modelPdf)
+					 }
+					 
+					 //set number of favorite books
+					 binding.favouriteBookCountTv.text = "${booksArrayList.size}"
+					 
+					 //set adapter
+					 adapterPdfFavourite = AdapterPdfFavourite(this@ProfileActivity,booksArrayList)
+					 
+					 //set adapter to recyclerview
+					 binding.favouriteRv.adapter = adapterPdfFavourite
+				 }
+				 
+				 override fun onCancelled(error: DatabaseError) {
+					 TODO("Not yet implemented")
+				 }
+			 } )
 	}
 }
