@@ -1,9 +1,14 @@
 package vinh.le.bookappkotlin
 
+import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -18,6 +23,12 @@ class ProfileActivity : AppCompatActivity() {
 	//firebase auth
 	private lateinit var firebaseAuth: FirebaseAuth
 	
+	//firebase current user
+	private  lateinit var firebaseUser: FirebaseUser
+	
+	//progress Dialog
+	private lateinit var progressDialog: ProgressDialog
+	
 	//ArrayList to Hold Books
 	private lateinit var booksArrayList: ArrayList<ModelPdf>
 	private lateinit var adapterPdfFavourite: AdapterPdfFavourite
@@ -27,19 +38,83 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 		
+		//reset to default values
+		binding.accountStatusTv.text = "N/A"
+		binding.memberDateTv.text = "N/A"
+		binding.favouriteBookCountTv.text = "N/A"
+		binding.accountStatusTv.text = "N/A"
+		
+		//firebase init
 		firebaseAuth = FirebaseAuth.getInstance()
+		firebaseUser = firebaseAuth.currentUser!!
+		
+		//init/setup progress Dialog
+		progressDialog = ProgressDialog(this)
+		progressDialog.setTitle("Please wait...")
+		progressDialog.setCanceledOnTouchOutside(false)
+		
+		loadUserInfo()
+		loadFavoriteBooks()
 		
 		//handle click, go back
 		binding.profileEditBtn.setOnClickListener{
 		   onBackPressed()
 		}
 		binding.profileEditBtn.setOnClickListener{
-		
+		 startActivity(Intent(this,ProfileActivity::class.java))
 		}
+		binding.accountStatusTv.setOnClickListener {
+			if (firebaseUser.isEmailVerified) {
+				//User is verified
+				Toast.makeText(this, "Already verified...!", Toast.LENGTH_SHORT).show()
+			} else {
+				//User's not found
+				emailVerificationDialog()
+			}
+		}
+	}
+	
+	private fun emailVerificationDialog() {
+		val builder = AlertDialog.Builder(this)
+		builder.setTitle("Verify Email")
+			.setMessage("Verification had been sent to your email ${firebaseUser.email}")
+			.setPositiveButton("SEND"){d,e ->
+				sendEmailVerification()
+			}
+			.setNegativeButton("CANCEL"){d,e->
+				d.dismiss()
+			}
+			.show()
+	}
+	
+	private fun sendEmailVerification() {
+	 //show progressDialog
+		progressDialog.setMessage("Sending email verification to email ${firebaseUser.email}")
+	    progressDialog.show()
 		
+		//send instruction
+		firebaseUser.sendEmailVerification()
+			.addOnSuccessListener {
+				//successfully sent
+				progressDialog.dismiss()
+				Toast.makeText(this, "Instruction sent! Please check your email !", Toast.LENGTH_SHORT).show()
+				
+			}
+			.addOnFailureListener{e->
+				progressDialog.dismiss()
+				Toast.makeText(this, "Failed to send due to ${e.message}", Toast.LENGTH_SHORT).show()
+			}
 	}
 	
 	private fun loadUserInfo(){
+		//check if user is verified or not
+		if(firebaseUser.isEmailVerified){
+		   binding.accountStatusTv.text = "Verified"
+		}
+		else{
+			binding.accountStatusTv.text = "Not Verified"
+		}
+		
 		//db reference to load user info
 		val ref = FirebaseDatabase.getInstance().getReference("Users")
 		ref.child(firebaseAuth.uid!!)
