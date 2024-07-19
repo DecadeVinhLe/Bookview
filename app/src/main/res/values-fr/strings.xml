@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <resources>
+        <string name="app_name">Application de Livres</string>
+        <string name="welcome_to_reading_app">Bienvenue dans l\'application de lecture</string>
+        <string name="continue_with_out_login">Continuer sans connexion</string>
+        <string name="login">Connexion</string>
+        <string name="book_app">Application de Livres</string>
+        <string name="email">E-mail</string>
+        <string name="password">Mot de passe\n</string>
+        <string name="forgot_password">Mot de passe oublié ?</string>
+        <string name="login_btn">Connexion</string>
+        <string name="new_user_signup">Nouvel utilisateur ?<b>Inscription</b></string>
+        <string name="app_logo">Logo de l\'application</string>
+        <string name="create_new_account">Créer un nouveau compte</string>
+        <string name="name">Nom</string>
+        <string name="c_password">Confirmer le mot de passe\n</string>
+        <string name="register">S\'inscrire</string>
+        <string name="dashboard_user">Tableau de bord Utilisateur</string>
+        <string name="dashboard_admin">Tableau de bord Administrateur\n</string>
+        <string name="not_logged_in">Non connecté</string>
+        <string name="abc_example_com">abc@example.com</string>
+        <string name="add_new_category">Ajouter une nouvelle catégorie</string>
+        <string name="category_title">Titre de la catégorie</string>
+        <string name="submit">Soumettre</string>
+        <string name="search">Rechercher</string>
+        <string name="add_category">+ Ajouter une catégorie</string>
+        <string name="add_a_new_book">Ajouter un nouveau livre</string>
+        <string name="book_title">Titre du livre</string>
+        <string name="book_description">Description du livre</string>
+        <string name="book_category">Catégorie du livre</string>
+        <string name="upload">Télécharger</string>
+        <string name="books">Livres</string>
+        <string name="category">Catégorie\n</string>
+        <string name="the_book_title">Titre du livre</string>
+        <string name="the_description_of_the_book">La description du livre</string>
+        <string name="caption_category">Catégorie</string>
+        <string name="_13mb">13 Mo</string>
+        <string name="dd_mm_yyyy">jj/MM/aaaa</string>
+        <string name="edit_book_info">Modifier les informations du livre</string>
+        <string name="_book_description">Description du livre</string>
+        <string name="update">Mettre à jour</string>
+        <string name="book_details">Détails du livre</string>
+        <string name="hello_blank_fragment">Bonjour fragment vide</string>
+    </resources>
+
+</resources>
